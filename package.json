@@ -6,11 +6,16 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.15.0",
+    "@sap-cloud-sdk/util": "^3.15.0",
     "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
     "express": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^1",
+    "@sap/cds-dk": "^7",
     "@sap/eslint-plugin-cds": "^3",
     "@sap/ux-specification": "^1.108.32",
     "eslint": "^9"
@@ -21,5 +26,46 @@
   },
   "sapux": [
     "app/risks"
-  ]
+  ],
+  "cds": {
+    "requires": {
+      "[development]": {
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "risk.viewer@tester.sap.com": {
+              "password": "initial",
+              "ID": "risk.viewer@tester.sap.com",
+              "roles": [
+                "RiskViewer"
+              ]
+            },
+            "risk.manager@tester.sap.com": {
+              "password": "initial",
+              "ID": "risk.manager@tester.sap.com",
+              "roles": [
+                "RiskManager"
+              ]
+            }
+          }
+        }
+      },
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v4",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[sandbox]": {
+          "credentials": {
+              "url": "https://sandbox.api.sap.com/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER"
+          }
+        }
+      }
+    }
+  },
+  "engines": {
+    "node": "^18"
+  }
 }

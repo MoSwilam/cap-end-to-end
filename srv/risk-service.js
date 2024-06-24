@@ -1,4 +1,3 @@
-
 const cds = require('@sap/cds')
 
 /**
@@ -14,5 +13,12 @@ module.exports = cds.service.impl(async function() {
                 risk.criticality = 2;
             }
         });
+    });
+
+    const bupa = await cds.connect.to('API_BUSINESS_PARTNER');
+
+    this.on('READ', 'Suppliers', async req => {
+        // are we going to delegate requests to the external service?
+        return bupa.run(req.query);
     });
 });
